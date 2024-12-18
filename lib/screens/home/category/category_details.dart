@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../../api/api_manager.dart';
 import '../../../model/SourceResponse.dart';
+import '../../../model/category.dart';
 import '../../../style/app_colors.dart';
 import '../tabs/tab_widget.dart';
 
 class CategoryDetails extends StatefulWidget {
-  const CategoryDetails({super.key});
+  Category category;
+
+  CategoryDetails({super.key, required this.category});
 
   @override
   State<CategoryDetails> createState() => _CategoryDetailsState();
@@ -16,7 +19,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<SourceResponse?>(
-      future: ApiManager.getSources(),
+      future: ApiManager.getSources(widget.category.id),
       builder: (context, snapshot) {
         // waiting to load data
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -33,7 +36,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
               Text('something went wrong'),
               ElevatedButton(
                   onPressed: () {
-                    ApiManager.getSources();
+                    ApiManager.getSources(widget.category.id);
                     setState(() {});
                   },
                   child: Text('try again')),
@@ -49,7 +52,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
               Text(snapshot.data!.message!),
               ElevatedButton(
                   onPressed: () {
-                    ApiManager.getSources();
+                    ApiManager.getSources(widget.category.id);
                     setState(() {});
                   },
                   child: Text('try again')),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/model/category.dart';
+import 'package:news_app/screens/home/category/category_details.dart';
 import 'package:news_app/screens/home/category/category_screen.dart';
+import 'package:news_app/screens/settings/settings_screen.dart';
 import 'package:news_app/style/theme_data.dart';
 
 import 'drawer/home_drawer.dart';
@@ -33,7 +36,11 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             title: Text(
-              'News App',
+              drawerSelectedItem == HomeDrawer.settings
+                  ? 'Settings'
+                  : selectedCategory == null
+                      ? 'News App'
+                      : selectedCategory!.title,
               style: MyThemeData.lightModeStyle.textTheme.titleLarge,
             ),
             centerTitle: true,
@@ -47,11 +54,35 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           drawer: Drawer(
-            child: HomeDrawer(),
+            child: HomeDrawer(
+              onDrawerItemClick: onDrawerItemClick,
+            ),
           ),
-          body: CategoryScreen(),
+          body: drawerSelectedItem == HomeDrawer.settings
+              ? SettingsScreen()
+              : selectedCategory == null
+                  ? CategoryScreen(
+                      onCategoryItemClick: onCategoryItemClick,
+                    )
+                  : CategoryDetails(category: selectedCategory!),
         ),
       ],
     );
+  }
+
+  int drawerSelectedItem = HomeDrawer.categories;
+
+  void onDrawerItemClick(int newDrawerSelectedItem) {
+    drawerSelectedItem = newDrawerSelectedItem;
+    Navigator.pop(context);
+    selectedCategory = null;
+    setState(() {});
+  }
+
+  Category? selectedCategory;
+
+  void onCategoryItemClick(Category newSelectedCategory) {
+    selectedCategory = newSelectedCategory;
+    setState(() {});
   }
 }

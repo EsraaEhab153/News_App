@@ -4,7 +4,11 @@ import 'package:news_app/style/app_colors.dart';
 import 'package:news_app/style/theme_data.dart';
 
 class HomeDrawer extends StatelessWidget {
-  const HomeDrawer({super.key});
+  static int categories = 1;
+  static int settings = 2;
+  Function onDrawerItemClick;
+
+  HomeDrawer({super.key, required this.onDrawerItemClick});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +25,23 @@ class HomeDrawer extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        const DrawerItem(
-          title: 'Categories',
-          itemIcon: Icons.list,
+        InkWell(
+          onTap: () {
+            onDrawerItemClick(categories);
+          },
+          child: const DrawerItem(
+            title: 'Categories',
+            itemIcon: Icons.list,
+          ),
         ),
-        const DrawerItem(
-          title: 'Settings',
-          itemIcon: Icons.settings,
+        InkWell(
+          onTap: () {
+            onDrawerItemClick(settings);
+          },
+          child: const DrawerItem(
+            title: 'Settings',
+            itemIcon: Icons.settings,
+          ),
         ),
       ],
     );
