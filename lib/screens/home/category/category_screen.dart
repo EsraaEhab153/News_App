@@ -5,9 +5,10 @@ import 'package:news_app/style/app_colors.dart';
 import 'package:news_app/style/theme_data.dart';
 
 class CategoryScreen extends StatelessWidget {
+  Function onCategoryItemClick;
   var categoryList = Category.getCategory();
 
-  CategoryScreen({super.key});
+  CategoryScreen({super.key, required this.onCategoryItemClick});
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +33,14 @@ class CategoryScreen extends StatelessWidget {
                 crossAxisSpacing: MediaQuery.of(context).size.width * 0.05,
                 mainAxisSpacing: MediaQuery.of(context).size.height * 0.022,
               ),
-              itemBuilder: (context, index) => CategoryItem(
-                index: index,
-                category: categoryList[index],
+              itemBuilder: (context, index) => InkWell(
+                onTap: () {
+                  onCategoryItemClick(categoryList[index]);
+                },
+                child: CategoryItem(
+                  index: index,
+                  category: categoryList[index],
+                ),
               ),
               itemCount: categoryList.length,
             ),

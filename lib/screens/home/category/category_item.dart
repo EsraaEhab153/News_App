@@ -32,6 +32,7 @@ class CategoryItem extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.13,
           ),
           Text(
+            overflow: TextOverflow.ellipsis,
             category.title,
             style: MyThemeData.lightModeStyle.textTheme.titleMedium,
           ),
